@@ -9,7 +9,6 @@ local TWAHealersDropDown = CreateFrame('Frame', 'TWAHealersDropDown', UIParent, 
 
 local TWATemplates = CreateFrame('Frame', 'TWATemplates', UIParent, 'UIDropDownMenuTemplate')
 
-
 function twaprint(a)
     if a == nil then
         DEFAULT_CHAT_FRAME:AddMessage('|cff69ccf0[TWA]|cff0070de:' .. time() .. '|cffffffff attempt to print a nil value.')
@@ -28,7 +27,6 @@ function twadebug(a)
         twaprint('|cff0070de[TWADEBUG:' .. time() .. ']|cffffffff[' .. a .. ']')
     end
 end
-
 
 TWA:RegisterEvent("ADDON_LOADED")
 TWA:RegisterEvent("RAID_ROSTER_UPDATE")
@@ -102,8 +100,50 @@ local twa_templates = {
         [3] = { "Left", "-", "-", "-", "-", "-", "-" },
         [4] = { "Right", "-", "-", "-", "-", "-", "-" },
         [5] = { "Right", "-", "-", "-", "-", "-", "-" },
+    },
+    ['skeram'] = {
+        [1] = { "BOSS", "-", "-", "-", "-", "-", "-" },
+        [2] = { "Left", "-", "-", "-", "-", "-", "-" },
+        [3] = { "Right", "-", "-", "-", "-", "-", "-" },
+        [4] = { "BOSS", "-", "-", "-", "-", "-", "-" },
+        [5] = { "Left", "-", "-", "-", "-", "-", "-" },
+        [6] = { "Right", "-", "-", "-", "-", "-", "-" },
+    },
+    ['bugtrio'] = {
+        [1] = { "Skull", "-", "-", "-", "-", "-", "-" },
+        [2] = { "Cross", "-", "-", "-", "-", "-", "-" },
+        [3] = { "Diamond", "-", "-", "-", "-", "-", "-" },
+    },
+    ['sartura'] = {
+        [1] = { "BOSS", "-", "-", "-", "-", "-", "-" },
+        [2] = { "Cross", "-", "-", "-", "-", "-", "-" },
+        [3] = { "Diamond", "-", "-", "-", "-", "-", "-" },
+        [4] = { "Triangle", "-", "-", "-", "-", "-", "-" },
+    },
+    ['fankriss'] = {
+        [1] = { "BOSS", "-", "-", "-", "-", "-", "-" },
+        [2] = { "North", "-", "-", "-", "-", "-", "-" },
+        [3] = { "East", "-", "-", "-", "-", "-", "-" },
+        [4] = { "West", "-", "-", "-", "-", "-", "-" },
+    },
+    ['huhu'] = {
+        [1] = { "BOSS", "-", "-", "-", "-", "-", "-" },
+        [2] = { "BOSS", "-", "-", "-", "-", "-", "-" },
+        [3] = { "Melee", "-", "-", "-", "-", "-", "-" },
+        [4] = { "Melee", "-", "-", "-", "-", "-", "-" },
+    },
+    ['twins'] = {
+        [1] = { "Left", "-", "-", "-", "-", "-", "-" },
+        [2] = { "Left", "-", "-", "-", "-", "-", "-" },
+        [3] = { "Right", "-", "-", "-", "-", "-", "-" },
+        [4] = { "Right", "-", "-", "-", "-", "-", "-" },
+        [5] = { "Adds", "-", "-", "-", "-", "-", "-" },
+        [6] = { "Adds", "-", "-", "-", "-", "-", "-" },
     }
+
 }
+
+TWA.loadedTemplate = ''
 
 function TWA.loadTemplate(template, load)
     if load ~= nil and load == true then
@@ -114,6 +154,7 @@ function TWA.loadTemplate(template, load)
         TWA.PopulateTWA()
         twaprint('Loaded template |cff69ccf0' .. template)
         getglobal('TWA_MainTemplates'):SetText(template)
+        TWA.loadedTemplate = template
         return true
     end
     ChatThrottleLib:SendAddonMessage("ALERT", "TWA", "LoadTemplate=" .. template, "RAID")
@@ -204,6 +245,7 @@ TWA.misc = {
     ['Raid'] = TWA.classColors['shaman'].c,
     ['Melee'] = TWA.classColors['rogue'].c,
     ['Ranged'] = TWA.classColors['mage'].c,
+    ['Adds'] = TWA.classColors['hunter'].c,
     ['BOSS'] = '|cffff3333',
     ['Enrage'] = '|cffff7777',
     ['Dispels'] = TWA.classColors['mage'].c,
@@ -224,6 +266,9 @@ TWA:SetScript("OnEvent", function()
     if event then
         if event == "ADDON_LOADED" and arg1 == "TWAssignments" then
             twaprint("TWA Loaded")
+            if not TWA_PRESETS then
+                TWA_PRESETS = {}
+            end
             if not TWA_DATA then
                 TWA_DATA = {
                     [1] = { '-', '-', '-', '-', '-', '-', '-' },
@@ -255,7 +300,9 @@ TWA:SetScript("OnEvent", function()
                             tank = mark
                         end
                         if i == 2 or i == 3 or i == 4 then
-                            if cell ~= '-' then tank = '' end
+                            if cell ~= '-' then
+                                tank = ''
+                            end
                         end
                         if i == 2 or i == 3 or i == 4 then
                             if cell ~= '-' then
@@ -269,8 +316,8 @@ TWA:SetScript("OnEvent", function()
                                 else
                                     lineToSend = lineToSend .. ' and ' .. mark
                                 end
---                                ChatThrottleLib:SendChatMessage("BULK", "TWA", " " .. mark, "WHISPER", "Common", arg2);
---                                sentAssignment = true
+                                --                                ChatThrottleLib:SendChatMessage("BULK", "TWA", " " .. mark, "WHISPER", "Common", arg2);
+                                --                                sentAssignment = true
                             end
                             if i == 5 or i == 6 or i == 7 then
                                 if lineToSend == '' then
@@ -278,8 +325,8 @@ TWA:SetScript("OnEvent", function()
                                 else
                                     lineToSend = lineToSend .. ' and ' .. tank
                                 end
---                                ChatThrottleLib:SendChatMessage("BULK", "TWA", "You are assigned to Heal " .. tank, "WHISPER", "Common", arg2);
---                                sentAssignment = true
+                                --                                ChatThrottleLib:SendChatMessage("BULK", "TWA", "You are assigned to Heal " .. tank, "WHISPER", "Common", arg2);
+                                --                                sentAssignment = true
                             end
                         end
                     end
@@ -289,9 +336,9 @@ TWA:SetScript("OnEvent", function()
                 else
                     ChatThrottleLib:SendChatMessage("BULK", "TWA", lineToSend, "WHISPER", "Common", arg2);
                 end
---                if not sentAssignment then
---                    ChatThrottleLib:SendChatMessage("BULK", "TWA", "You are not assigned.", "WHISPER", "Common", arg2);
---                end
+                --                if not sentAssignment then
+                --                    ChatThrottleLib:SendChatMessage("BULK", "TWA", "You are not assigned.", "WHISPER", "Common", arg2);
+                --                end
             end
         end
     end
@@ -300,7 +347,9 @@ end)
 function TWA.markOrPlayerUsed(markOrPlayer)
     for row, data in next, TWA.data do
         for _, as in next, data do
-            if as == markOrPlayer then return true end
+            if as == markOrPlayer then
+                return true
+            end
         end
     end
     return false
@@ -345,13 +394,17 @@ function TWA.handleSync(pre, t, ch, sender)
 
     if string.find(t, 'LoadTemplate=', 1, true) then
         local tempEx = string.split(t, '=')
-        if not tempEx[2] then return false end
+        if not tempEx[2] then
+            return false
+        end
         TWA.loadTemplate(tempEx[2], true)
     end
 
     if string.find(t, 'SendTable=', 1, true) then
         local sendEx = string.split(t, '=')
-        if not sendEx[2] then return false end
+        if not sendEx[2] then
+            return false
+        end
 
         if sendEx[2] == me then
             ChatThrottleLib:SendAddonMessage("ALERT", "TWA", "FullSync=start", "RAID")
@@ -392,15 +445,23 @@ function TWA.handleSync(pre, t, ch, sender)
 
     if string.find(t, 'RemRow=', 1, true) then
         local rowEx = string.split(t, '=')
-        if not rowEx[2] then return false end
-        if not tonumber(rowEx[2]) then return false end
+        if not rowEx[2] then
+            return false
+        end
+        if not tonumber(rowEx[2]) then
+            return false
+        end
 
         TWA.RemRow(tonumber(rowEx[2]), sender)
     end
     if string.find(t, 'ChangeCell=', 1, true) then
         local changeEx = string.split(t, '=')
-        if not changeEx[2] or not changeEx[3] then return false end
-        if not tonumber(changeEx[2]) or not changeEx[3] then return false end
+        if not changeEx[2] or not changeEx[3] then
+            return false
+        end
+        if not tonumber(changeEx[2]) or not changeEx[3] then
+            return false
+        end
 
         TWA.change(tonumber(changeEx[2]), changeEx[3], sender)
     end
@@ -441,9 +502,15 @@ function TWA.change(xy, to, sender)
 end
 
 function TWA.closeDropdown(y)
-    if y == 1 then ToggleDropDownMenu(1, nil, getglobal('TWATargetsDropDown'), "cursor", 2, 3) end
-    if y == 2 or y == 3 or y == 4 then ToggleDropDownMenu(1, nil, getglobal('TWATanksDropDown'), "cursor", 2, 3) end
-    if y == 5 or y == 6 or 6 == 7 then ToggleDropDownMenu(1, nil, getglobal('TWAHealersDropDown'), "cursor", 2, 3) end
+    if y == 1 then
+        ToggleDropDownMenu(1, nil, getglobal('TWATargetsDropDown'), "cursor", 2, 3)
+    end
+    if y == 2 or y == 3 or y == 4 then
+        ToggleDropDownMenu(1, nil, getglobal('TWATanksDropDown'), "cursor", 2, 3)
+    end
+    if y == 5 or y == 6 or 6 == 7 then
+        ToggleDropDownMenu(1, nil, getglobal('TWAHealersDropDown'), "cursor", 2, 3)
+    end
 end
 
 function TWA.PopulateTWA()
@@ -502,13 +569,25 @@ function TWA.PopulateTWA()
                 end
             end
 
-            if TWA.marks[name] then color = TWA.marks[name] end
-            if TWA.sides[name] then color = TWA.sides[name] end
-            if TWA.coords[name] then color = TWA.coords[name] end
-            if TWA.misc[name] then color = TWA.misc[name] end
-            if TWA.groups[name] then color = TWA.groups[name] end
+            if TWA.marks[name] then
+                color = TWA.marks[name]
+            end
+            if TWA.sides[name] then
+                color = TWA.sides[name]
+            end
+            if TWA.coords[name] then
+                color = TWA.coords[name]
+            end
+            if TWA.misc[name] then
+                color = TWA.misc[name]
+            end
+            if TWA.groups[name] then
+                color = TWA.groups[name]
+            end
 
-            if name == '-' then name = '' end
+            if name == '-' then
+                name = ''
+            end
 
             if TWA.isPlayerOffline(name) then
                 color = '|cffff0000'
@@ -1150,12 +1229,15 @@ function SpamRaid_OnClick()
         for i, name in data do
             dontPrintLine = dontPrintLine and name == '-'
             local separator = ''
-            if i == 1 then separator = ' : '
+            if i == 1 then
+                separator = ' : '
             end
-            if i == 4 then separator = ' || Healers: '
+            if i == 4 then
+                separator = ' || Healers: '
             end
 
-            if name == '-' then name = ''
+            if name == '-' then
+                name = ''
             end
             --            if i == 1 then
             --                name = name .. string.rep(' ', 10 - string.len(name))
@@ -1202,8 +1284,12 @@ end
 
 function TWA.Reset()
     for index, data in next, TWA.data do
-        if TWA.rows[index] then TWA.rows[index]:Hide() end
-        if TWA.data[index] then TWA.data[index] = nil end
+        if TWA.rows[index] then
+            TWA.rows[index]:Hide()
+        end
+        if TWA.data[index] then
+            TWA.data[index] = nil
+        end
     end
     TWA.data = {
         [1] = { '-', '-', '-', '-', '-', '-', '-' },
@@ -1246,6 +1332,15 @@ function buildTemplatesDropdown()
         Raids.hasArrow = true
         Raids.value = {
             ['key'] = 'bwl'
+        }
+        UIDropDownMenu_AddButton(Raids, UIDROPDOWNMENU_MENU_LEVEL);
+
+        local Raids = {}
+        Raids.text = "Ahn\'Quiraj"
+        Raids.notCheckable = true
+        Raids.hasArrow = true
+        Raids.value = {
+            ['key'] = 'aq40'
         }
         UIDropDownMenu_AddButton(Raids, UIDROPDOWNMENU_MENU_LEVEL);
     end
@@ -1321,12 +1416,110 @@ function buildTemplatesDropdown()
             UIDropDownMenu_AddButton(dropdownItem, UIDROPDOWNMENU_MENU_LEVEL);
             dropdownItem = nil
         end
+        if (UIDROPDOWNMENU_MENU_VALUE["key"] == 'aq40') then
+
+            local dropdownItem = {}
+            dropdownItem.text = "The Prophet Skeram"
+            dropdownItem.func = TWA.loadTemplate
+            dropdownItem.arg1 = 'skeram'
+            dropdownItem.arg2 = false
+            UIDropDownMenu_AddButton(dropdownItem, UIDROPDOWNMENU_MENU_LEVEL);
+            dropdownItem = nil
+
+            local dropdownItem = {}
+            dropdownItem.text = "Bug Trio"
+            dropdownItem.func = TWA.loadTemplate
+            dropdownItem.arg1 = 'bugtrio'
+            dropdownItem.arg2 = false
+            UIDropDownMenu_AddButton(dropdownItem, UIDROPDOWNMENU_MENU_LEVEL);
+            dropdownItem = nil
+
+            local dropdownItem = {}
+            dropdownItem.text = "Battleguard Sartura"
+            dropdownItem.func = TWA.loadTemplate
+            dropdownItem.arg1 = 'sartura'
+            dropdownItem.arg2 = false
+            UIDropDownMenu_AddButton(dropdownItem, UIDROPDOWNMENU_MENU_LEVEL);
+            dropdownItem = nil
+
+            local dropdownItem = {}
+            dropdownItem.text = "Fankriss"
+            dropdownItem.func = TWA.loadTemplate
+            dropdownItem.arg1 = 'fankriss'
+            dropdownItem.arg2 = false
+            UIDropDownMenu_AddButton(dropdownItem, UIDROPDOWNMENU_MENU_LEVEL);
+            dropdownItem = nil
+
+            local dropdownItem = {}
+            dropdownItem.text = "Huhuran"
+            dropdownItem.func = TWA.loadTemplate
+            dropdownItem.arg1 = 'huhu'
+            dropdownItem.arg2 = false
+            UIDropDownMenu_AddButton(dropdownItem, UIDROPDOWNMENU_MENU_LEVEL);
+            dropdownItem = nil
+
+            local dropdownItem = {}
+            dropdownItem.text = "Twin Emps"
+            dropdownItem.func = TWA.loadTemplate
+            dropdownItem.arg1 = 'twins'
+            dropdownItem.arg2 = false
+            UIDropDownMenu_AddButton(dropdownItem, UIDROPDOWNMENU_MENU_LEVEL);
+            dropdownItem = nil
+
+        end
     end
 end
 
 function Templates_OnClick()
     UIDropDownMenu_Initialize(TWATemplates, buildTemplatesDropdown, "MENU");
     ToggleDropDownMenu(1, nil, TWATemplates, "cursor", 2, 3);
+end
+
+function LoadPreset_OnClick()
+
+    if TWA.loadedTemplate == '' then
+        twaprint('Please load a template first.')
+    else
+
+        if TWA_PRESETS[TWA.loadedTemplate] then
+
+            for index, data in next, TWA_PRESETS[TWA.loadedTemplate] do
+                for i, name in data do
+
+                    if i ~= 1 and name ~= '-' then
+                        TWA.changeCell(index * 100 + i, name)
+                    end
+
+                end
+            end
+
+        else
+            twaprint('No preset saved for |cff69ccf0' .. TWA.loadedTemplate)
+        end
+
+
+
+    end
+
+
+end
+
+function SavePreset_OnClick()
+
+    if TWA.loadedTemplate == '' then
+        twaprint('Please load a template first.')
+    else
+        local preset = {}
+        for index, data in next, TWA.data do
+            preset[index] = {}
+            for i, name in data do
+                table.insert(preset[index], name)
+            end
+        end
+        TWA_PRESETS[TWA.loadedTemplate] = preset
+        twaprint('Saved preset for |cff69ccf0' .. TWA.loadedTemplate)
+    end
+
 end
 
 function string:split(delimiter)
@@ -1344,15 +1537,20 @@ end
 
 function pairsByKeys(t, f)
     local a = {}
-    for n in pairs(t) do table.insert(a, n)
+    for n in pairs(t) do
+        table.insert(a, n)
     end
-    table.sort(a, function(a, b) return a < b
+    table.sort(a, function(a, b)
+        return a < b
     end)
     local i = 0 -- iterator variable
-    local iter = function() -- iterator function
+    local iter = function()
+        -- iterator function
         i = i + 1
-        if a[i] == nil then return nil
-        else return a[i], t[a[i]]
+        if a[i] == nil then
+            return nil
+        else
+            return a[i], t[a[i]]
         end
     end
     return iter

@@ -274,12 +274,12 @@
 
             <Button name="$parentSpamRaid" inherits="UIPanelButtonTemplate2" text="Spam Raid">
                 <Size>
-                    <AbsDimension x="80" y="20"/>
+                    <AbsDimension x="120" y="20"/>
                 </Size>
                 <Anchors>
                     <Anchor point="TOPLEFT">
                         <Offset>
-                            <AbsDimension x="120" y="-2"/>
+                            <AbsDimension x="100" y="-2"/>
                         </Offset>
                     </Anchor>
                 </Anchors>
@@ -289,24 +289,6 @@
                     </OnClick>
                 </Scripts>
             </Button>
-
-            <!--            <Button name="$parentRequestSync" inherits="UIPanelButtonTemplate2" text="Request Sync">-->
-            <!--                <Size>-->
-            <!--                    <AbsDimension x="100" y="20"/>-->
-            <!--                </Size>-->
-            <!--                <Anchors>-->
-            <!--                    <Anchor point="TOPRIGHT">-->
-            <!--                        <Offset>-->
-            <!--                            <AbsDimension x="-120" y="-2"/>-->
-            <!--                        </Offset>-->
-            <!--                    </Anchor>-->
-            <!--                </Anchors>-->
-            <!--                <Scripts>-->
-            <!--                    <OnClick>-->
-            <!--                            RequestSync_OnClick()-->
-            <!--                    </OnClick>-->
-            <!--                </Scripts>-->
-            <!--            </Button>-->
 
             <Button name="$parentTemplates" inherits="UIPanelButtonTemplate2" text="Templates">
                 <Size>
@@ -322,6 +304,42 @@
                 <Scripts>
                     <OnClick>
                             Templates_OnClick()
+                    </OnClick>
+                </Scripts>
+            </Button>
+
+            <Button name="$parentSavePreset" inherits="UIPanelButtonTemplate2" text="Save">
+                <Size>
+                    <AbsDimension x="60" y="20"/>
+                </Size>
+                <Anchors>
+                    <Anchor point="TOPRIGHT">
+                        <Offset>
+                            <AbsDimension x="-230" y="-2"/>
+                        </Offset>
+                    </Anchor>
+                </Anchors>
+                <Scripts>
+                    <OnClick>
+                        SavePreset_OnClick()
+                    </OnClick>
+                </Scripts>
+            </Button>
+
+            <Button name="$parentLoadPreset" inherits="UIPanelButtonTemplate2" text="Load">
+                <Size>
+                    <AbsDimension x="60" y="20"/>
+                </Size>
+                <Anchors>
+                    <Anchor point="TOPRIGHT">
+                        <Offset>
+                            <AbsDimension x="-290" y="-2"/>
+                        </Offset>
+                    </Anchor>
+                </Anchors>
+                <Scripts>
+                    <OnClick>
+                        LoadPreset_OnClick()
                     </OnClick>
                 </Scripts>
             </Button>
