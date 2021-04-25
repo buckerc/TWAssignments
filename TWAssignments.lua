@@ -116,9 +116,9 @@ local twa_templates = {
     },
     ['sartura'] = {
         [1] = { "BOSS", "-", "-", "-", "-", "-", "-" },
-        [2] = { "Cross", "-", "-", "-", "-", "-", "-" },
-        [3] = { "Diamond", "-", "-", "-", "-", "-", "-" },
-        [4] = { "Triangle", "-", "-", "-", "-", "-", "-" },
+        [2] = { "Skull", "-", "-", "-", "-", "-", "-" },
+        [3] = { "Cross", "-", "-", "-", "-", "-", "-" },
+        [4] = { "Square", "-", "-", "-", "-", "-", "-" },
     },
     ['fankriss'] = {
         [1] = { "BOSS", "-", "-", "-", "-", "-", "-" },
@@ -139,7 +139,77 @@ local twa_templates = {
         [4] = { "Right", "-", "-", "-", "-", "-", "-" },
         [5] = { "Adds", "-", "-", "-", "-", "-", "-" },
         [6] = { "Adds", "-", "-", "-", "-", "-", "-" },
-    }
+    },
+    ['anub'] = {
+        [1] = { "BOSS", "-", "-", "-", "-", "-", "-" },
+        [2] = { "Skull", "-", "-", "-", "-", "-", "-" },
+        [3] = { "Cross", "-", "-", "-", "-", "-", "-" },
+        [4] = { "Raid", "-", "-", "-", "-", "-", "-" },
+    },
+    ['faerlina'] = {
+        [1] = { "BOSS", "-", "-", "-", "-", "-", "-" },
+        [2] = { "BOSS", "-", "-", "-", "-", "-", "-" },
+        [3] = { "Adds", "-", "-", "-", "-", "-", "-" },
+        [4] = { "Raid", "-", "-", "-", "-", "-", "-" },
+        [5] = { "Raid", "-", "-", "-", "-", "-", "-" },
+    },
+    ['maexxna'] = {
+        [1] = { "BOSS", "-", "-", "-", "-", "-", "-" },
+        [2] = { "BOSS", "-", "-", "-", "-", "-", "-" },
+        [3] = { "Wall", "-", "-", "-", "-", "-", "-" },
+    },
+    ['noth'] = {
+        [1] = { "BOSS", "-", "-", "-", "-", "-", "-" },
+        [2] = { "NorthWest", "-", "-", "-", "-", "-", "-" },
+        [3] = { "SouthWest", "-", "-", "-", "-", "-", "-" },
+        [4] = { "NorthEast", "-", "-", "-", "-", "-", "-" },
+    },
+    ['heigan'] = {
+        [1] = { "BOSS", "-", "-", "-", "-", "-", "-" },
+        [2] = { "Melee", "-", "-", "-", "-", "-", "-" },
+        [3] = { "Dispels", "-", "-", "-", "-", "-", "-" },
+    },
+    ['raz'] = {
+        [1] = { "BOSS", "-", "-", "-", "-", "-", "-" },
+        [2] = { "Adds", "-", "-", "-", "-", "-", "-" },
+        [3] = { "Adds", "-", "-", "-", "-", "-", "-" },
+    },
+    ['gothik'] = {
+        [1] = { "Living", "-", "-", "-", "-", "-", "-" },
+        [2] = { "Living", "-", "-", "-", "-", "-", "-" },
+        [3] = { "Dead", "-", "-", "-", "-", "-", "-" },
+        [4] = { "Dead", "-", "-", "-", "-", "-", "-" },
+    },
+    ['patchwerk'] = {
+        [1] = { "BOSS", "-", "-", "-", "-", "-", "-" },
+        [2] = { "Soaker", "-", "-", "-", "-", "-", "-" },
+        [3] = { "Soaker", "-", "-", "-", "-", "-", "-" },
+        [4] = { "Soaker", "-", "-", "-", "-", "-", "-" },
+    },
+    ['grobulus'] = {
+        [1] = { "BOSS", "-", "-", "-", "-", "-", "-" },
+        [2] = { "Melee", "-", "-", "-", "-", "-", "-" },
+        [3] = { "Dispells", "-", "-", "-", "-", "-", "-" },
+    },
+    ['gluth'] = {
+        [1] = { "BOSS", "-", "-", "-", "-", "-", "-" },
+        [2] = { "Adds", "-", "-", "-", "-", "-", "-" },
+    },
+    ['thaddius'] = {
+        [1] = { "BOSS", "-", "-", "-", "-", "-", "-" },
+        [2] = { "Left", "-", "-", "-", "-", "-", "-" },
+        [3] = { "Right", "-", "-", "-", "-", "-", "-" },
+    },
+    ['saph'] = {
+        [1] = { "BOSS", "-", "-", "-", "-", "-", "-" },
+        [2] = { "BOSS", "-", "-", "-", "-", "-", "-" },
+        [3] = { "Raid", "-", "-", "-", "-", "-", "-" },
+        [4] = { "Raid", "-", "-", "-", "-", "-", "-" },
+    },
+    ['kt'] = {
+        [1] = { "BOSS", "-", "-", "-", "-", "-", "-" },
+        [2] = { "Raid", "-", "-", "-", "-", "-", "-" },
+    },
 
 }
 
@@ -208,14 +278,6 @@ TWA.classColors = {
     ["priest"] = { r = 1, g = 1, b = 1, c = "|cffffffff" },
     ["warlock"] = { r = 0.58, g = 0.51, b = 0.79, c = "|cff9482c9" },
     ["paladin"] = { r = 0.96, g = 0.55, b = 0.73, c = "|cfff58cba" },
-    ["krieger"] = { r = 0.78, g = 0.61, b = 0.43, c = "|cffc79c6e" },
-    ["magier"] = { r = 0.41, g = 0.8, b = 0.94, c = "|cff69ccf0" },
-    ["schurke"] = { r = 1, g = 0.96, b = 0.41, c = "|cfffff569" },
-    ["druide"] = { r = 1, g = 0.49, b = 0.04, c = "|cffff7d0a" },
-    ["jäger"] = { r = 0.67, g = 0.83, b = 0.45, c = "|cffabd473" },
-    ["schamane"] = { r = 0.14, g = 0.35, b = 1.0, c = "|cff0070de" },
-    ["priester"] = { r = 1, g = 1, b = 1, c = "|cffffffff" },
-    ["hexenmeister"] = { r = 0.58, g = 0.51, b = 0.79, c = "|cff9482c9" },
 }
 
 TWA.marks = {
@@ -240,15 +302,23 @@ TWA.coords = {
     ['South'] = '|cffffffff',
     ['East'] = '|cffffffff',
     ['West'] = '|cffffffff',
+    ['NorthWest'] = TWA.classColors['rogue'].c,
+    ['NorthEast'] = TWA.classColors['rogue'].c,
+    ['SouthEast'] = TWA.classColors['rogue'].c,
+    ['SouthWest'] = TWA.classColors['rogue'].c,
 }
 TWA.misc = {
     ['Raid'] = TWA.classColors['shaman'].c,
     ['Melee'] = TWA.classColors['rogue'].c,
     ['Ranged'] = TWA.classColors['mage'].c,
-    ['Adds'] = TWA.classColors['hunter'].c,
+    ['Adds'] = TWA.classColors['paladin'].c,
     ['BOSS'] = '|cffff3333',
     ['Enrage'] = '|cffff7777',
+    ['Wall'] = TWA.classColors['hunter'].c,
+    ['Living'] = TWA.classColors['warrior'].c,
+    ['Dead'] = TWA.classColors['druid'].c,
     ['Dispels'] = TWA.classColors['mage'].c,
+    ['Soaker'] = TWA.classColors['druid'].c,
 }
 
 TWA.groups = {
@@ -1343,6 +1413,15 @@ function buildTemplatesDropdown()
             ['key'] = 'aq40'
         }
         UIDropDownMenu_AddButton(Raids, UIDROPDOWNMENU_MENU_LEVEL);
+
+        local Raids = {}
+        Raids.text = "Naxxramas"
+        Raids.notCheckable = true
+        Raids.hasArrow = true
+        Raids.value = {
+            ['key'] = 'naxx'
+        }
+        UIDropDownMenu_AddButton(Raids, UIDROPDOWNMENU_MENU_LEVEL);
     end
 
     if UIDROPDOWNMENU_MENU_LEVEL == 2 then
@@ -1462,6 +1541,113 @@ function buildTemplatesDropdown()
             dropdownItem.text = "Twin Emps"
             dropdownItem.func = TWA.loadTemplate
             dropdownItem.arg1 = 'twins'
+            dropdownItem.arg2 = false
+            UIDropDownMenu_AddButton(dropdownItem, UIDROPDOWNMENU_MENU_LEVEL);
+            dropdownItem = nil
+
+        end
+        if (UIDROPDOWNMENU_MENU_VALUE["key"] == 'naxx') then
+
+            local dropdownItem = {}
+            dropdownItem.text = "Anub'rekhan"
+            dropdownItem.func = TWA.loadTemplate
+            dropdownItem.arg1 = 'anub'
+            dropdownItem.arg2 = false
+            UIDropDownMenu_AddButton(dropdownItem, UIDROPDOWNMENU_MENU_LEVEL);
+            dropdownItem = nil
+
+            local dropdownItem = {}
+            dropdownItem.text = "Faerlina"
+            dropdownItem.func = TWA.loadTemplate
+            dropdownItem.arg1 = 'faerlina'
+            dropdownItem.arg2 = false
+            UIDropDownMenu_AddButton(dropdownItem, UIDROPDOWNMENU_MENU_LEVEL);
+            dropdownItem = nil
+
+            local dropdownItem = {}
+            dropdownItem.text = "Maexxna"
+            dropdownItem.func = TWA.loadTemplate
+            dropdownItem.arg1 = 'maexxna'
+            dropdownItem.arg2 = false
+            UIDropDownMenu_AddButton(dropdownItem, UIDROPDOWNMENU_MENU_LEVEL);
+            dropdownItem = nil
+
+            local dropdownItem = {}
+            dropdownItem.text = "Noth"
+            dropdownItem.func = TWA.loadTemplate
+            dropdownItem.arg1 = 'noth'
+            dropdownItem.arg2 = false
+            UIDropDownMenu_AddButton(dropdownItem, UIDROPDOWNMENU_MENU_LEVEL);
+            dropdownItem = nil
+
+            local dropdownItem = {}
+            dropdownItem.text = "Heigan"
+            dropdownItem.func = TWA.loadTemplate
+            dropdownItem.arg1 = 'heigan'
+            dropdownItem.arg2 = false
+            UIDropDownMenu_AddButton(dropdownItem, UIDROPDOWNMENU_MENU_LEVEL);
+            dropdownItem = nil
+
+            local dropdownItem = {}
+            dropdownItem.text = "Razuvious"
+            dropdownItem.func = TWA.loadTemplate
+            dropdownItem.arg1 = 'raz'
+            dropdownItem.arg2 = false
+            UIDropDownMenu_AddButton(dropdownItem, UIDROPDOWNMENU_MENU_LEVEL);
+            dropdownItem = nil
+
+            local dropdownItem = {}
+            dropdownItem.text = "Gothik"
+            dropdownItem.func = TWA.loadTemplate
+            dropdownItem.arg1 = 'gothik'
+            dropdownItem.arg2 = false
+            UIDropDownMenu_AddButton(dropdownItem, UIDROPDOWNMENU_MENU_LEVEL);
+            dropdownItem = nil
+
+            local dropdownItem = {}
+            dropdownItem.text = "Patchwerk"
+            dropdownItem.func = TWA.loadTemplate
+            dropdownItem.arg1 = 'patchwerk'
+            dropdownItem.arg2 = false
+            UIDropDownMenu_AddButton(dropdownItem, UIDROPDOWNMENU_MENU_LEVEL);
+            dropdownItem = nil
+
+            local dropdownItem = {}
+            dropdownItem.text = "Grobbulus"
+            dropdownItem.func = TWA.loadTemplate
+            dropdownItem.arg1 = 'grobulus'
+            dropdownItem.arg2 = false
+            UIDropDownMenu_AddButton(dropdownItem, UIDROPDOWNMENU_MENU_LEVEL);
+            dropdownItem = nil
+
+            local dropdownItem = {}
+            dropdownItem.text = "Gluth"
+            dropdownItem.func = TWA.loadTemplate
+            dropdownItem.arg1 = 'gluth'
+            dropdownItem.arg2 = false
+            UIDropDownMenu_AddButton(dropdownItem, UIDROPDOWNMENU_MENU_LEVEL);
+            dropdownItem = nil
+
+            local dropdownItem = {}
+            dropdownItem.text = "Thaddius"
+            dropdownItem.func = TWA.loadTemplate
+            dropdownItem.arg1 = 'thaddius'
+            dropdownItem.arg2 = false
+            UIDropDownMenu_AddButton(dropdownItem, UIDROPDOWNMENU_MENU_LEVEL);
+            dropdownItem = nil
+
+            local dropdownItem = {}
+            dropdownItem.text = "Sapphiron"
+            dropdownItem.func = TWA.loadTemplate
+            dropdownItem.arg1 = 'saph'
+            dropdownItem.arg2 = false
+            UIDropDownMenu_AddButton(dropdownItem, UIDROPDOWNMENU_MENU_LEVEL);
+            dropdownItem = nil
+
+            local dropdownItem = {}
+            dropdownItem.text = "Kel'Thusad"
+            dropdownItem.func = TWA.loadTemplate
+            dropdownItem.arg1 = 'kt'
             dropdownItem.arg2 = false
             UIDropDownMenu_AddButton(dropdownItem, UIDROPDOWNMENU_MENU_LEVEL);
             dropdownItem = nil
