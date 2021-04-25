@@ -359,9 +359,8 @@ TWA:SetScript("OnEvent", function()
         end
         if event == 'CHAT_MSG_WHISPER' then
             if arg1 == 'heal' then
-                local sentAssignment = false
                 local lineToSend = ''
-                for line, row in next, TWA.data do
+                for _, row in next, TWA.data do
                     local mark = ''
                     local tank = ''
                     for i, cell in next, row do
@@ -386,8 +385,6 @@ TWA:SetScript("OnEvent", function()
                                 else
                                     lineToSend = lineToSend .. ' and ' .. mark
                                 end
-                                --                                ChatThrottleLib:SendChatMessage("BULK", "TWA", " " .. mark, "WHISPER", "Common", arg2);
-                                --                                sentAssignment = true
                             end
                             if i == 5 or i == 6 or i == 7 then
                                 if lineToSend == '' then
@@ -395,8 +392,6 @@ TWA:SetScript("OnEvent", function()
                                 else
                                     lineToSend = lineToSend .. ' and ' .. tank
                                 end
-                                --                                ChatThrottleLib:SendChatMessage("BULK", "TWA", "You are assigned to Heal " .. tank, "WHISPER", "Common", arg2);
-                                --                                sentAssignment = true
                             end
                         end
                     end
@@ -406,9 +401,6 @@ TWA:SetScript("OnEvent", function()
                 else
                     ChatThrottleLib:SendChatMessage("BULK", "TWA", lineToSend, "WHISPER", "Common", arg2);
                 end
-                --                if not sentAssignment then
-                --                    ChatThrottleLib:SendChatMessage("BULK", "TWA", "You are not assigned.", "WHISPER", "Common", arg2);
-                --                end
             end
         end
     end
@@ -468,6 +460,7 @@ function TWA.handleSync(pre, t, ch, sender)
             return false
         end
         TWA.loadTemplate(tempEx[2], true)
+        return true
     end
 
     if string.find(t, 'SendTable=', 1, true) then
@@ -478,7 +471,7 @@ function TWA.handleSync(pre, t, ch, sender)
 
         if sendEx[2] == me then
             ChatThrottleLib:SendAddonMessage("ALERT", "TWA", "FullSync=start", "RAID")
-            for row, data in next, TWA.data do
+            for _, data in next, TWA.data do
                 ChatThrottleLib:SendAddonMessage("ALERT", "TWA", "FullSync=" ..
                         data[1] .. '=' ..
                         data[2] .. '=' ..
@@ -490,6 +483,7 @@ function TWA.handleSync(pre, t, ch, sender)
             end
             ChatThrottleLib:SendAddonMessage("ALERT", "TWA", "FullSync=end", "RAID")
         end
+        return true
     end
 
     if string.find(t, 'FullSync=', 1, true) and sender ~= me then
@@ -511,6 +505,7 @@ function TWA.handleSync(pre, t, ch, sender)
                 TWA.data[index][7] = sEx[8]
             end
         end
+        return true
     end
 
     if string.find(t, 'RemRow=', 1, true) then
@@ -523,37 +518,44 @@ function TWA.handleSync(pre, t, ch, sender)
         end
 
         TWA.RemRow(tonumber(rowEx[2]), sender)
+        return true
     end
     if string.find(t, 'ChangeCell=', 1, true) then
         local changeEx = string.split(t, '=')
-        if not changeEx[2] or not changeEx[3] then
+        if not changeEx[2] or not changeEx[3] or not changeEx[4] then
             return false
         end
-        if not tonumber(changeEx[2]) or not changeEx[3] then
+        if not tonumber(changeEx[2]) or not changeEx[3] or not changeEx[4] then
             return false
         end
 
-        TWA.change(tonumber(changeEx[2]), changeEx[3], sender)
+        TWA.change(tonumber(changeEx[2]), changeEx[3], sender, changeEx[4] == '1')
+        return true
     end
     if string.find(t, 'Reset', 1, true) then
         TWA.Reset()
+        return true
     end
     if string.find(t, 'AddLine', 1, true) then
         TWA.AddLine()
+        return true
     end
 end
 
 TWA.rows = {}
 TWA.cells = {}
 
-function TWA.changeCell(xy, to)
-    ChatThrottleLib:SendAddonMessage("ALERT", "TWA", "ChangeCell=" .. xy .. "=" .. to, "RAID")
-    local x = math.floor(xy / 100)
-    local y = xy - x * 100
-    TWA.closeDropdown(y)
+function TWA.changeCell(xy, to, dontOpenDropdown)
+
+    dontOpenDropdown = dontOpenDropdown and 1 or 0
+
+    ChatThrottleLib:SendAddonMessage("ALERT", "TWA", "ChangeCell=" .. xy .. "=" .. to .. "=" .. dontOpenDropdown, "RAID")
+    --local x = math.floor(xy / 100)
+    --local y = xy - x * 100
+    --TWA.closeDropdown(y)
 end
 
-function TWA.change(xy, to, sender)
+function TWA.change(xy, to, sender, dontOpenDropdown)
     local x = math.floor(xy / 100)
     local y = xy - x * 100
 
@@ -717,7 +719,6 @@ end
 function Buttoane_OnEnter(id)
 
     local index = math.floor(id / 100)
-    local i = id - index * 100
 
     if id < 100 then
         index = id
@@ -729,7 +730,6 @@ end
 function Buttoane_OnLeave(id)
 
     local index = math.floor(id / 100)
-    local i = id - index * 100
 
     if id < 100 then
         index = id
@@ -1230,7 +1230,7 @@ function buildHealersDropdown()
     end
     if UIDROPDOWNMENU_MENU_LEVEL == 2 then
 
-        for i, healer in next, TWA.raid[UIDROPDOWNMENU_MENU_VALUE['key']] do
+        for _, healer in next, TWA.raid[UIDROPDOWNMENU_MENU_VALUE['key']] do
             local Healers = {}
 
             local color = TWA.classColors[UIDROPDOWNMENU_MENU_VALUE['key']].c
@@ -1572,6 +1572,11 @@ function buildTemplatesDropdown()
             UIDropDownMenu_AddButton(dropdownItem, UIDROPDOWNMENU_MENU_LEVEL);
             dropdownItem = nil
 
+            local separator = {};
+            separator.text = ""
+            separator.disabled = true
+            UIDropDownMenu_AddButton(separator, UIDROPDOWNMENU_MENU_LEVEL);
+
             local dropdownItem = {}
             dropdownItem.text = "Noth"
             dropdownItem.func = TWA.loadTemplate
@@ -1588,6 +1593,11 @@ function buildTemplatesDropdown()
             UIDropDownMenu_AddButton(dropdownItem, UIDROPDOWNMENU_MENU_LEVEL);
             dropdownItem = nil
 
+            local separator = {};
+            separator.text = ""
+            separator.disabled = true
+            UIDropDownMenu_AddButton(separator, UIDROPDOWNMENU_MENU_LEVEL);
+
             local dropdownItem = {}
             dropdownItem.text = "Razuvious"
             dropdownItem.func = TWA.loadTemplate
@@ -1603,6 +1613,11 @@ function buildTemplatesDropdown()
             dropdownItem.arg2 = false
             UIDropDownMenu_AddButton(dropdownItem, UIDROPDOWNMENU_MENU_LEVEL);
             dropdownItem = nil
+
+            local separator = {};
+            separator.text = ""
+            separator.disabled = true
+            UIDropDownMenu_AddButton(separator, UIDROPDOWNMENU_MENU_LEVEL);
 
             local dropdownItem = {}
             dropdownItem.text = "Patchwerk"
@@ -1635,6 +1650,11 @@ function buildTemplatesDropdown()
             dropdownItem.arg2 = false
             UIDropDownMenu_AddButton(dropdownItem, UIDROPDOWNMENU_MENU_LEVEL);
             dropdownItem = nil
+
+            local separator = {};
+            separator.text = ""
+            separator.disabled = true
+            UIDropDownMenu_AddButton(separator, UIDROPDOWNMENU_MENU_LEVEL);
 
             local dropdownItem = {}
             dropdownItem.text = "Sapphiron"
@@ -1673,7 +1693,7 @@ function LoadPreset_OnClick()
                 for i, name in data do
 
                     if i ~= 1 and name ~= '-' then
-                        TWA.changeCell(index * 100 + i, name)
+                        TWA.changeCell(index * 100 + i, name, true)
                     end
 
                 end
@@ -1682,12 +1702,7 @@ function LoadPreset_OnClick()
         else
             twaprint('No preset saved for |cff69ccf0' .. TWA.loadedTemplate)
         end
-
-
-
     end
-
-
 end
 
 function SavePreset_OnClick()
