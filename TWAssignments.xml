@@ -108,7 +108,7 @@
         </Frames>
     </Frame>
 
-    <Frame name="TWA_Main" hidden="false" toplevel="true"
+    <Frame name="TWA_Main" hidden="true" toplevel="true"
            parent="UIParent" movable="true" enableMouse="true" resizable="false">
         <Size>
             <AbsDimension x="590" y="100"/>
