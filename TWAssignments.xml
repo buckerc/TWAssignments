@@ -108,7 +108,7 @@
         </Frames>
     </Frame>
 
-    <Frame name="TWA_Main" hidden="true" toplevel="true"
+    <Frame name="TWA_Main" hidden="false" toplevel="true"
            parent="UIParent" movable="true" enableMouse="true" resizable="false">
         <Size>
             <AbsDimension x="590" y="100"/>
@@ -238,7 +238,7 @@
 
             <Button name="$parentAddLine" inherits="UIPanelButtonTemplate2" text="+">
                 <Size>
-                    <AbsDimension x="80" y="20"/>
+                    <AbsDimension x="30" y="20"/>
                 </Size>
                 <Anchors>
                     <Anchor point="TOPLEFT">
@@ -272,20 +272,38 @@
                 </Scripts>
             </Button>
 
-            <Button name="$parentSpamRaid" inherits="UIPanelButtonTemplate2" text="Spam Raid">
+            <Button name="$parentSpamRaid" inherits="UIPanelButtonTemplate2" text="= Spam Raid = ">
                 <Size>
-                    <AbsDimension x="120" y="20"/>
+                    <AbsDimension x="100" y="20"/>
                 </Size>
                 <Anchors>
                     <Anchor point="TOPLEFT">
                         <Offset>
-                            <AbsDimension x="100" y="-2"/>
+                            <AbsDimension x="40" y="-2"/>
                         </Offset>
                     </Anchor>
                 </Anchors>
                 <Scripts>
                     <OnClick>
                             SpamRaid_OnClick()
+                    </OnClick>
+                </Scripts>
+            </Button>
+
+            <Button name="$parentSyncBW" inherits="UIPanelButtonTemplate2" text="Sync BW">
+                <Size>
+                    <AbsDimension x="80" y="20"/>
+                </Size>
+                <Anchors>
+                    <Anchor point="TOPLEFT">
+                        <Offset>
+                            <AbsDimension x="150" y="-2"/>
+                        </Offset>
+                    </Anchor>
+                </Anchors>
+                <Scripts>
+                    <OnClick>
+                        SyncBW_OnClick()
                     </OnClick>
                 </Scripts>
             </Button>

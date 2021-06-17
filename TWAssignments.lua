@@ -180,6 +180,12 @@ local twa_templates = {
         [3] = { "Dead", "-", "-", "-", "-", "-", "-" },
         [4] = { "Dead", "-", "-", "-", "-", "-", "-" },
     },
+    ['4h'] = {
+        [1] = { "Skull", "-", "-", "-", "-", "-", "-" },
+        [2] = { "Cross", "-", "-", "-", "-", "-", "-" },
+        [3] = { "Moon", "-", "-", "-", "-", "-", "-" },
+        [4] = { "Square", "-", "-", "-", "-", "-", "-" },
+    },
     ['patchwerk'] = {
         [1] = { "BOSS", "-", "-", "-", "-", "-", "-" },
         [2] = { "Soaker", "-", "-", "-", "-", "-", "-" },
@@ -1309,9 +1315,13 @@ function SpamRaid_OnClick()
             if name == '-' then
                 name = ''
             end
-            --            if i == 1 then
-            --                name = name .. string.rep(' ', 10 - string.len(name))
-            --            end
+
+            if TWA.loadedTemplate == '4h' then
+                if name ~= '' and i >= 5 then
+                    name = '[' .. i - 4 .. ']' .. name
+                end
+            end
+
             line = line .. name .. ' ' .. separator
         end
 
@@ -1396,7 +1406,7 @@ function buildTemplatesDropdown()
         }
         UIDropDownMenu_AddButton(Raids, UIDROPDOWNMENU_MENU_LEVEL);
 
-        local Raids = {}
+        Raids = {}
         Raids.text = "Blackwing Lair"
         Raids.notCheckable = true
         Raids.hasArrow = true
@@ -1405,7 +1415,7 @@ function buildTemplatesDropdown()
         }
         UIDropDownMenu_AddButton(Raids, UIDROPDOWNMENU_MENU_LEVEL);
 
-        local Raids = {}
+        Raids = {}
         Raids.text = "Ahn\'Quiraj"
         Raids.notCheckable = true
         Raids.hasArrow = true
@@ -1414,7 +1424,7 @@ function buildTemplatesDropdown()
         }
         UIDropDownMenu_AddButton(Raids, UIDROPDOWNMENU_MENU_LEVEL);
 
-        local Raids = {}
+        Raids = {}
         Raids.text = "Naxxramas"
         Raids.notCheckable = true
         Raids.hasArrow = true
@@ -1436,7 +1446,7 @@ function buildTemplatesDropdown()
             UIDropDownMenu_AddButton(dropdownItem, UIDROPDOWNMENU_MENU_LEVEL);
             dropdownItem = nil
 
-            local dropdownItem = {}
+            dropdownItem = {}
             dropdownItem.text = "Majordomo"
             dropdownItem.func = TWA.loadTemplate
             dropdownItem.arg1 = 'domo'
@@ -1444,7 +1454,7 @@ function buildTemplatesDropdown()
             UIDropDownMenu_AddButton(dropdownItem, UIDROPDOWNMENU_MENU_LEVEL);
             dropdownItem = nil
 
-            local dropdownItem = {}
+            dropdownItem = {}
             dropdownItem.text = "Ragnaros"
             dropdownItem.func = TWA.loadTemplate
             dropdownItem.arg1 = 'rag'
@@ -1463,7 +1473,7 @@ function buildTemplatesDropdown()
             UIDropDownMenu_AddButton(dropdownItem, UIDROPDOWNMENU_MENU_LEVEL);
             dropdownItem = nil
 
-            local dropdownItem = {}
+            dropdownItem = {}
             dropdownItem.text = "Vaelastrasz"
             dropdownItem.func = TWA.loadTemplate
             dropdownItem.arg1 = 'vael'
@@ -1471,7 +1481,7 @@ function buildTemplatesDropdown()
             UIDropDownMenu_AddButton(dropdownItem, UIDROPDOWNMENU_MENU_LEVEL);
             dropdownItem = nil
 
-            local dropdownItem = {}
+            dropdownItem = {}
             dropdownItem.text = "Lashlayer"
             dropdownItem.func = TWA.loadTemplate
             dropdownItem.arg1 = 'lashlayer'
@@ -1479,7 +1489,7 @@ function buildTemplatesDropdown()
             UIDropDownMenu_AddButton(dropdownItem, UIDROPDOWNMENU_MENU_LEVEL);
             dropdownItem = nil
 
-            local dropdownItem = {}
+            dropdownItem = {}
             dropdownItem.text = "Chromaggus"
             dropdownItem.func = TWA.loadTemplate
             dropdownItem.arg1 = 'chromaggus'
@@ -1487,7 +1497,7 @@ function buildTemplatesDropdown()
             UIDropDownMenu_AddButton(dropdownItem, UIDROPDOWNMENU_MENU_LEVEL);
             dropdownItem = nil
 
-            local dropdownItem = {}
+            dropdownItem = {}
             dropdownItem.text = "Nefarian"
             dropdownItem.func = TWA.loadTemplate
             dropdownItem.arg1 = 'nef'
@@ -1505,7 +1515,7 @@ function buildTemplatesDropdown()
             UIDropDownMenu_AddButton(dropdownItem, UIDROPDOWNMENU_MENU_LEVEL);
             dropdownItem = nil
 
-            local dropdownItem = {}
+            dropdownItem = {}
             dropdownItem.text = "Bug Trio"
             dropdownItem.func = TWA.loadTemplate
             dropdownItem.arg1 = 'bugtrio'
@@ -1513,7 +1523,7 @@ function buildTemplatesDropdown()
             UIDropDownMenu_AddButton(dropdownItem, UIDROPDOWNMENU_MENU_LEVEL);
             dropdownItem = nil
 
-            local dropdownItem = {}
+            dropdownItem = {}
             dropdownItem.text = "Battleguard Sartura"
             dropdownItem.func = TWA.loadTemplate
             dropdownItem.arg1 = 'sartura'
@@ -1521,7 +1531,7 @@ function buildTemplatesDropdown()
             UIDropDownMenu_AddButton(dropdownItem, UIDROPDOWNMENU_MENU_LEVEL);
             dropdownItem = nil
 
-            local dropdownItem = {}
+            dropdownItem = {}
             dropdownItem.text = "Fankriss"
             dropdownItem.func = TWA.loadTemplate
             dropdownItem.arg1 = 'fankriss'
@@ -1529,7 +1539,7 @@ function buildTemplatesDropdown()
             UIDropDownMenu_AddButton(dropdownItem, UIDROPDOWNMENU_MENU_LEVEL);
             dropdownItem = nil
 
-            local dropdownItem = {}
+            dropdownItem = {}
             dropdownItem.text = "Huhuran"
             dropdownItem.func = TWA.loadTemplate
             dropdownItem.arg1 = 'huhu'
@@ -1537,7 +1547,7 @@ function buildTemplatesDropdown()
             UIDropDownMenu_AddButton(dropdownItem, UIDROPDOWNMENU_MENU_LEVEL);
             dropdownItem = nil
 
-            local dropdownItem = {}
+            dropdownItem = {}
             dropdownItem.text = "Twin Emps"
             dropdownItem.func = TWA.loadTemplate
             dropdownItem.arg1 = 'twins'
@@ -1556,7 +1566,7 @@ function buildTemplatesDropdown()
             UIDropDownMenu_AddButton(dropdownItem, UIDROPDOWNMENU_MENU_LEVEL);
             dropdownItem = nil
 
-            local dropdownItem = {}
+            dropdownItem = {}
             dropdownItem.text = "Faerlina"
             dropdownItem.func = TWA.loadTemplate
             dropdownItem.arg1 = 'faerlina'
@@ -1564,7 +1574,7 @@ function buildTemplatesDropdown()
             UIDropDownMenu_AddButton(dropdownItem, UIDROPDOWNMENU_MENU_LEVEL);
             dropdownItem = nil
 
-            local dropdownItem = {}
+            dropdownItem = {}
             dropdownItem.text = "Maexxna"
             dropdownItem.func = TWA.loadTemplate
             dropdownItem.arg1 = 'maexxna'
@@ -1577,7 +1587,7 @@ function buildTemplatesDropdown()
             separator.disabled = true
             UIDropDownMenu_AddButton(separator, UIDROPDOWNMENU_MENU_LEVEL);
 
-            local dropdownItem = {}
+            dropdownItem = {}
             dropdownItem.text = "Noth"
             dropdownItem.func = TWA.loadTemplate
             dropdownItem.arg1 = 'noth'
@@ -1585,7 +1595,7 @@ function buildTemplatesDropdown()
             UIDropDownMenu_AddButton(dropdownItem, UIDROPDOWNMENU_MENU_LEVEL);
             dropdownItem = nil
 
-            local dropdownItem = {}
+            dropdownItem = {}
             dropdownItem.text = "Heigan"
             dropdownItem.func = TWA.loadTemplate
             dropdownItem.arg1 = 'heigan'
@@ -1593,12 +1603,12 @@ function buildTemplatesDropdown()
             UIDropDownMenu_AddButton(dropdownItem, UIDROPDOWNMENU_MENU_LEVEL);
             dropdownItem = nil
 
-            local separator = {};
+            separator = {};
             separator.text = ""
             separator.disabled = true
             UIDropDownMenu_AddButton(separator, UIDROPDOWNMENU_MENU_LEVEL);
 
-            local dropdownItem = {}
+            dropdownItem = {}
             dropdownItem.text = "Razuvious"
             dropdownItem.func = TWA.loadTemplate
             dropdownItem.arg1 = 'raz'
@@ -1606,7 +1616,7 @@ function buildTemplatesDropdown()
             UIDropDownMenu_AddButton(dropdownItem, UIDROPDOWNMENU_MENU_LEVEL);
             dropdownItem = nil
 
-            local dropdownItem = {}
+            dropdownItem = {}
             dropdownItem.text = "Gothik"
             dropdownItem.func = TWA.loadTemplate
             dropdownItem.arg1 = 'gothik'
@@ -1614,12 +1624,20 @@ function buildTemplatesDropdown()
             UIDropDownMenu_AddButton(dropdownItem, UIDROPDOWNMENU_MENU_LEVEL);
             dropdownItem = nil
 
-            local separator = {};
+            dropdownItem = {}
+            dropdownItem.text = "Four Horsemen"
+            dropdownItem.func = TWA.loadTemplate
+            dropdownItem.arg1 = '4h'
+            dropdownItem.arg2 = false
+            UIDropDownMenu_AddButton(dropdownItem, UIDROPDOWNMENU_MENU_LEVEL);
+            dropdownItem = nil
+
+            separator = {};
             separator.text = ""
             separator.disabled = true
             UIDropDownMenu_AddButton(separator, UIDROPDOWNMENU_MENU_LEVEL);
 
-            local dropdownItem = {}
+            dropdownItem = {}
             dropdownItem.text = "Patchwerk"
             dropdownItem.func = TWA.loadTemplate
             dropdownItem.arg1 = 'patchwerk'
@@ -1627,7 +1645,7 @@ function buildTemplatesDropdown()
             UIDropDownMenu_AddButton(dropdownItem, UIDROPDOWNMENU_MENU_LEVEL);
             dropdownItem = nil
 
-            local dropdownItem = {}
+            dropdownItem = {}
             dropdownItem.text = "Grobbulus"
             dropdownItem.func = TWA.loadTemplate
             dropdownItem.arg1 = 'grobulus'
@@ -1635,7 +1653,7 @@ function buildTemplatesDropdown()
             UIDropDownMenu_AddButton(dropdownItem, UIDROPDOWNMENU_MENU_LEVEL);
             dropdownItem = nil
 
-            local dropdownItem = {}
+            dropdownItem = {}
             dropdownItem.text = "Gluth"
             dropdownItem.func = TWA.loadTemplate
             dropdownItem.arg1 = 'gluth'
@@ -1643,7 +1661,7 @@ function buildTemplatesDropdown()
             UIDropDownMenu_AddButton(dropdownItem, UIDROPDOWNMENU_MENU_LEVEL);
             dropdownItem = nil
 
-            local dropdownItem = {}
+            dropdownItem = {}
             dropdownItem.text = "Thaddius"
             dropdownItem.func = TWA.loadTemplate
             dropdownItem.arg1 = 'thaddius'
@@ -1651,12 +1669,12 @@ function buildTemplatesDropdown()
             UIDropDownMenu_AddButton(dropdownItem, UIDROPDOWNMENU_MENU_LEVEL);
             dropdownItem = nil
 
-            local separator = {};
+            separator = {};
             separator.text = ""
             separator.disabled = true
             UIDropDownMenu_AddButton(separator, UIDROPDOWNMENU_MENU_LEVEL);
 
-            local dropdownItem = {}
+            dropdownItem = {}
             dropdownItem.text = "Sapphiron"
             dropdownItem.func = TWA.loadTemplate
             dropdownItem.arg1 = 'saph'
@@ -1664,7 +1682,7 @@ function buildTemplatesDropdown()
             UIDropDownMenu_AddButton(dropdownItem, UIDROPDOWNMENU_MENU_LEVEL);
             dropdownItem = nil
 
-            local dropdownItem = {}
+            dropdownItem = {}
             dropdownItem.text = "Kel'Thusad"
             dropdownItem.func = TWA.loadTemplate
             dropdownItem.arg1 = 'kt'
@@ -1720,6 +1738,44 @@ function SavePreset_OnClick()
         TWA_PRESETS[TWA.loadedTemplate] = preset
         twaprint('Saved preset for |cff69ccf0' .. TWA.loadedTemplate)
     end
+
+end
+
+function SyncBW_OnClick()
+    ChatThrottleLib:SendAddonMessage("ALERT", "TWABW", "BWSynch=start", "RAID")
+
+    for _, data in next, TWA.data do
+
+        local line = ''
+        local dontPrintLine = true
+        for i, name in data do
+            dontPrintLine = dontPrintLine and name == '-'
+            local separator = ''
+            if i == 1 then
+                separator = ' : '
+            end
+            if i == 4 then
+                separator = ' || Healers: '
+            end
+
+            if name == '-' then
+                name = ''
+            end
+
+            if TWA.loadedTemplate == '4h' then
+                if name ~= '' and i >= 5 then
+                    name = '[' .. i - 4 .. ']' .. name
+                end
+            end
+
+            line = line .. name .. ' ' .. separator
+        end
+
+        if not dontPrintLine then
+            ChatThrottleLib:SendAddonMessage("ALERT", "TWABW", "BWSynch=" .. line, "RAID")
+        end
+    end
+    ChatThrottleLib:SendAddonMessage("ALERT", "TWABW", "BWSynch=end", "RAID")
 
 end
 
