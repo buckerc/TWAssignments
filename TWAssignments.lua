@@ -150,8 +150,8 @@ local twa_templates = {
         [1] = { "BOSS", "-", "-", "-", "-", "-", "-" },
         [2] = { "BOSS", "-", "-", "-", "-", "-", "-" },
         [3] = { "Adds", "-", "-", "-", "-", "-", "-" },
-        [4] = { "Raid", "-", "-", "-", "-", "-", "-" },
-        [5] = { "Raid", "-", "-", "-", "-", "-", "-" },
+        [4] = { "Skull", "-", "-", "-", "-", "-", "-" },
+        [5] = { "Cross", "-", "-", "-", "-", "-", "-" },
     },
     ['maexxna'] = {
         [1] = { "BOSS", "-", "-", "-", "-", "-", "-" },
@@ -437,9 +437,9 @@ function TWA.fillRaidData()
         ['hunter'] = {},
     }
     for i = 0, GetNumRaidMembers() do
-        if (GetRaidRosterInfo(i)) then
+        if GetRaidRosterInfo(i) then
             local name, _, _, _, _, _, z = GetRaidRosterInfo(i);
-            local _, unitClass = UnitClass('raid' .. i) --standard
+            local _, unitClass = UnitClass('raid' .. i)
             unitClass = string.lower(unitClass)
             table.insert(TWA.raid[unitClass], name)
         end
@@ -556,19 +556,15 @@ function TWA.changeCell(xy, to, dontOpenDropdown)
     dontOpenDropdown = dontOpenDropdown and 1 or 0
 
     ChatThrottleLib:SendAddonMessage("ALERT", "TWA", "ChangeCell=" .. xy .. "=" .. to .. "=" .. dontOpenDropdown, "RAID")
-    --local x = math.floor(xy / 100)
-    --local y = xy - x * 100
-    --TWA.closeDropdown(y)
+
+    local x = math.floor(xy / 100)
+    local y = xy - x * 100
+    TWA.closeDropdown(y)
 end
 
 function TWA.change(xy, to, sender, dontOpenDropdown)
     local x = math.floor(xy / 100)
     local y = xy - x * 100
-
-    if not TWA.data[x] then
-        ChatThrottleLib:SendAddonMessage("ALERT", "TWA", "SendTable=" .. sender, "RAID")
-        return false
-    end
 
     if to ~= 'clear' then
         TWA.data[x][y] = to
@@ -581,13 +577,19 @@ end
 
 function TWA.closeDropdown(y)
     if y == 1 then
-        ToggleDropDownMenu(1, nil, getglobal('TWATargetsDropDown'), "cursor", 2, 3)
+        if getglobal('TWATargetsDropDown'):IsVisible() then
+            ToggleDropDownMenu(1, nil, getglobal('TWATargetsDropDown'), "cursor", 2, 3)
+        end
     end
     if y == 2 or y == 3 or y == 4 then
-        ToggleDropDownMenu(1, nil, getglobal('TWATanksDropDown'), "cursor", 2, 3)
+        if getglobal('TWATanksDropDown'):IsVisible() then
+            ToggleDropDownMenu(1, nil, getglobal('TWATanksDropDown'), "cursor", 2, 3)
+        end
     end
     if y == 5 or y == 6 or 6 == 7 then
-        ToggleDropDownMenu(1, nil, getglobal('TWAHealersDropDown'), "cursor", 2, 3)
+        if getglobal('TWAHealersDropDown'):IsVisible() then
+            ToggleDropDownMenu(1, nil, getglobal('TWAHealersDropDown'), "cursor", 2, 3)
+        end
     end
 end
 
@@ -713,11 +715,6 @@ function TWA.PopulateTWA()
         end
     end
 
-    local newLen = 0
-    for _ in next, TWA.data do
-        newLen = newLen + 1
-    end
-
     getglobal('TWA_Main'):SetHeight(50 + table.getn(TWA.data) * 21)
     TWA_DATA = TWA.data
 end
@@ -742,10 +739,6 @@ function Buttoane_OnLeave(id)
     end
 
     getglobal('TWRow' .. index):SetBackdropColor(0, 0, 0, .2)
-end
-
-function RequestSync_OnClick()
-    ChatThrottleLib:SendAddonMessage("ALERT", "TWA", "FullSync", "RAID")
 end
 
 function buildTargetsDropdown()
@@ -1704,6 +1697,8 @@ function LoadPreset_OnClick()
     if TWA.loadedTemplate == '' then
         twaprint('Please load a template first.')
     else
+
+        TWA.loadTemplate(TWA.loadedTemplate)
 
         if TWA_PRESETS[TWA.loadedTemplate] then
 
