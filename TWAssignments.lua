@@ -36,6 +36,16 @@ TWA:RegisterEvent("CHAT_MSG_WHISPER")
 TWA.data = {}
 
 local twa_templates = {
+    ['trash'] = {
+        [1] = { "Skull", "-", "-", "-", "-", "-", "-" },
+        [2] = { "Cross", "-", "-", "-", "-", "-", "-" },
+        [3] = { "Triangle", "-", "-", "-", "-", "-", "-" },
+        [4] = { "Square", "-", "-", "-", "-", "-", "-" },
+        [5] = { "Diamond", "-", "-", "-", "-", "-", "-" },
+        [6] = { "Circle", "-", "-", "-", "-", "-", "-" },
+        [7] = { "Star", "-", "-", "-", "-", "-", "-" },
+        [8] = { "Moon", "-", "-", "-", "-", "-", "-" }
+    },
     ['gaar'] = {
         [1] = { "BOSS", "-", "-", "-", "-", "-", "-" },
         [2] = { "Skull", "-", "-", "-", "-", "-", "-" },
@@ -157,6 +167,7 @@ local twa_templates = {
         [1] = { "BOSS", "-", "-", "-", "-", "-", "-" },
         [2] = { "BOSS", "-", "-", "-", "-", "-", "-" },
         [3] = { "Wall", "-", "-", "-", "-", "-", "-" },
+        [4] = { "Wall", "-", "-", "-", "-", "-", "-" },
     },
     ['noth'] = {
         [1] = { "BOSS", "-", "-", "-", "-", "-", "-" },
@@ -171,8 +182,10 @@ local twa_templates = {
     },
     ['raz'] = {
         [1] = { "BOSS", "-", "-", "-", "-", "-", "-" },
-        [2] = { "Adds", "-", "-", "-", "-", "-", "-" },
-        [3] = { "Adds", "-", "-", "-", "-", "-", "-" },
+        [2] = { "Skull", "-", "-", "-", "-", "-", "-" },
+        [3] = { "Cross", "-", "-", "-", "-", "-", "-" },
+        [4] = { "Moon", "-", "-", "-", "-", "-", "-" },
+        [5] = { "Square", "-", "-", "-", "-", "-", "-" },
     },
     ['gothik'] = {
         [1] = { "Living", "-", "-", "-", "-", "-", "-" },
@@ -204,7 +217,9 @@ local twa_templates = {
     ['thaddius'] = {
         [1] = { "BOSS", "-", "-", "-", "-", "-", "-" },
         [2] = { "Left", "-", "-", "-", "-", "-", "-" },
-        [3] = { "Right", "-", "-", "-", "-", "-", "-" },
+        [3] = { "Left", "-", "-", "-", "-", "-", "-" },
+        [4] = { "Right", "-", "-", "-", "-", "-", "-" },
+        [5] = { "Right", "-", "-", "-", "-", "-", "-" },
     },
     ['saph'] = {
         [1] = { "BOSS", "-", "-", "-", "-", "-", "-" },
@@ -1288,7 +1303,6 @@ end
 
 function SpamRaid_OnClick()
 
-
     ChatThrottleLib:SendChatMessage("BULK", "TWA", "======= RAID ASSIGNMENTS =======", "RAID")
 
     for index, data in next, TWA.data do
@@ -1389,6 +1403,24 @@ function buildTemplatesDropdown()
         Title.text = "Templates"
         Title.isTitle = true
         UIDropDownMenu_AddButton(Title, UIDROPDOWNMENU_MENU_LEVEL);
+
+        local separator = {};
+        separator.text = ""
+        separator.disabled = true
+        UIDropDownMenu_AddButton(separator, UIDROPDOWNMENU_MENU_LEVEL);
+
+        local trash = {}
+        trash.text = "=Trash="
+        trash.func = TWA.loadTemplate
+        trash.arg1 = 'trash'
+        trash.arg2 = false
+        UIDropDownMenu_AddButton(trash, UIDROPDOWNMENU_MENU_LEVEL);
+        trash = nil
+
+        local separator = {};
+        separator.text = ""
+        separator.disabled = true
+        UIDropDownMenu_AddButton(separator, UIDROPDOWNMENU_MENU_LEVEL);
 
         local Raids = {}
         Raids.text = "Molten Core"
