@@ -36,7 +36,47 @@ TWA:RegisterEvent("CHAT_MSG_WHISPER")
 TWA.data = {}
 
 local twa_templates = {
-    ['trash'] = {
+    ['trash1'] = {
+        [1] = { "Skull", "-", "-", "-", "-", "-", "-" },
+        [2] = { "Cross", "-", "-", "-", "-", "-", "-" },
+        [3] = { "Triangle", "-", "-", "-", "-", "-", "-" },
+        [4] = { "Square", "-", "-", "-", "-", "-", "-" },
+        [5] = { "Diamond", "-", "-", "-", "-", "-", "-" },
+        [6] = { "Circle", "-", "-", "-", "-", "-", "-" },
+        [7] = { "Star", "-", "-", "-", "-", "-", "-" },
+        [8] = { "Moon", "-", "-", "-", "-", "-", "-" }
+    },
+    ['trash2'] = {
+        [1] = { "Skull", "-", "-", "-", "-", "-", "-" },
+        [2] = { "Cross", "-", "-", "-", "-", "-", "-" },
+        [3] = { "Triangle", "-", "-", "-", "-", "-", "-" },
+        [4] = { "Square", "-", "-", "-", "-", "-", "-" },
+        [5] = { "Diamond", "-", "-", "-", "-", "-", "-" },
+        [6] = { "Circle", "-", "-", "-", "-", "-", "-" },
+        [7] = { "Star", "-", "-", "-", "-", "-", "-" },
+        [8] = { "Moon", "-", "-", "-", "-", "-", "-" }
+    },
+    ['trash3'] = {
+        [1] = { "Skull", "-", "-", "-", "-", "-", "-" },
+        [2] = { "Cross", "-", "-", "-", "-", "-", "-" },
+        [3] = { "Triangle", "-", "-", "-", "-", "-", "-" },
+        [4] = { "Square", "-", "-", "-", "-", "-", "-" },
+        [5] = { "Diamond", "-", "-", "-", "-", "-", "-" },
+        [6] = { "Circle", "-", "-", "-", "-", "-", "-" },
+        [7] = { "Star", "-", "-", "-", "-", "-", "-" },
+        [8] = { "Moon", "-", "-", "-", "-", "-", "-" }
+    },
+    ['trash4'] = {
+        [1] = { "Skull", "-", "-", "-", "-", "-", "-" },
+        [2] = { "Cross", "-", "-", "-", "-", "-", "-" },
+        [3] = { "Triangle", "-", "-", "-", "-", "-", "-" },
+        [4] = { "Square", "-", "-", "-", "-", "-", "-" },
+        [5] = { "Diamond", "-", "-", "-", "-", "-", "-" },
+        [6] = { "Circle", "-", "-", "-", "-", "-", "-" },
+        [7] = { "Star", "-", "-", "-", "-", "-", "-" },
+        [8] = { "Moon", "-", "-", "-", "-", "-", "-" }
+    },
+    ['trash5'] = {
         [1] = { "Skull", "-", "-", "-", "-", "-", "-" },
         [2] = { "Cross", "-", "-", "-", "-", "-", "-" },
         [3] = { "Triangle", "-", "-", "-", "-", "-", "-" },
@@ -766,6 +806,11 @@ function buildTargetsDropdown()
 
     if UIDROPDOWNMENU_MENU_LEVEL == 1 then
 
+        local Trash = {}
+        Trash.text = "Trash"
+        Trash.isTitle = true
+        UIDropDownMenu_AddButton(Trash, UIDROPDOWNMENU_MENU_LEVEL);
+
         local Title = {}
         Title.text = "Targets"
         Title.isTitle = true
@@ -1311,12 +1356,15 @@ function SpamRaid_OnClick()
 
     ChatThrottleLib:SendChatMessage("BULK", "TWA", "======= RAID ASSIGNMENTS =======", "RAID")
 
-    for index, data in next, TWA.data do
+    for _, data in next, TWA.data do
 
         local line = ''
         local dontPrintLine = true
         for i, name in data do
-            dontPrintLine = dontPrintLine and name == '-'
+            if i > 1 then
+                dontPrintLine = dontPrintLine and name == '-'
+            end
+
             local separator = ''
             if i == 1 then
                 separator = ' : '
@@ -1415,13 +1463,14 @@ function buildTemplatesDropdown()
         separator.disabled = true
         UIDropDownMenu_AddButton(separator, UIDROPDOWNMENU_MENU_LEVEL);
 
-        local trash = {}
-        trash.text = "=Trash="
-        trash.func = TWA.loadTemplate
-        trash.arg1 = 'trash'
-        trash.arg2 = false
-        UIDropDownMenu_AddButton(trash, UIDROPDOWNMENU_MENU_LEVEL);
-        trash = nil
+        local Trash = {}
+        Trash.text = "Trash"
+        Trash.notCheckable = true
+        Trash.hasArrow = true
+        Trash.value = {
+            ['key'] = 'trash'
+        }
+        UIDropDownMenu_AddButton(Trash, UIDROPDOWNMENU_MENU_LEVEL);
 
         local separator = {};
         separator.text = ""
@@ -1467,7 +1516,20 @@ function buildTemplatesDropdown()
 
     if UIDROPDOWNMENU_MENU_LEVEL == 2 then
 
-        if (UIDROPDOWNMENU_MENU_VALUE["key"] == 'mc') then
+        if UIDROPDOWNMENU_MENU_VALUE["key"] == 'trash' then
+
+            for i = 1, 5 do
+                local dropdownItem = {}
+                dropdownItem.text = "Trash #" .. i
+                dropdownItem.func = TWA.loadTemplate
+                dropdownItem.arg1 = 'trash' .. i
+                dropdownItem.arg2 = false
+                UIDropDownMenu_AddButton(dropdownItem, UIDROPDOWNMENU_MENU_LEVEL);
+            end
+
+        end
+
+        if UIDROPDOWNMENU_MENU_VALUE["key"] == 'mc' then
 
             local dropdownItem = {}
             dropdownItem.text = "Gaar"
@@ -1494,7 +1556,7 @@ function buildTemplatesDropdown()
             dropdownItem = nil
         end
 
-        if (UIDROPDOWNMENU_MENU_VALUE["key"] == 'bwl') then
+        if UIDROPDOWNMENU_MENU_VALUE["key"] == 'bwl' then
 
             local dropdownItem = {}
             dropdownItem.text = "Razorgore"
@@ -1536,7 +1598,8 @@ function buildTemplatesDropdown()
             UIDropDownMenu_AddButton(dropdownItem, UIDROPDOWNMENU_MENU_LEVEL);
             dropdownItem = nil
         end
-        if (UIDROPDOWNMENU_MENU_VALUE["key"] == 'aq40') then
+
+        if UIDROPDOWNMENU_MENU_VALUE["key"] == 'aq40' then
 
             local dropdownItem = {}
             dropdownItem.text = "The Prophet Skeram"
@@ -1587,7 +1650,8 @@ function buildTemplatesDropdown()
             dropdownItem = nil
 
         end
-        if (UIDROPDOWNMENU_MENU_VALUE["key"] == 'naxx') then
+
+        if UIDROPDOWNMENU_MENU_VALUE["key"] == 'naxx' then
 
             local dropdownItem = {}
             dropdownItem.text = "Anub'rekhan"
