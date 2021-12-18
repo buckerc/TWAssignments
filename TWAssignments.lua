@@ -424,6 +424,9 @@ TWA:SetScript("OnEvent", function()
             twadebug(arg4 .. ' says: ' .. arg2)
             TWA.handleSync(arg1, arg2, arg3, arg4)
         end
+        if event == 'CHAT_MSG_ADDON' and arg1 == "QH" then
+            TWA.handleQHSync(arg1, arg2, arg3, arg4)
+        end
         if event == 'CHAT_MSG_WHISPER' then
             if arg1 == 'heal' then
                 local lineToSend = ''
@@ -606,6 +609,43 @@ function TWA.handleSync(pre, t, ch, sender)
     if string.find(t, 'AddLine', 1, true) then
         TWA.AddLine()
         return true
+    end
+end
+
+function TWA.handleQHSync(pre, t, ch, sender)
+
+    if sender ~= me then
+        local roster
+        local tanks = 'Tanks='
+        local healers = 'Healers='
+
+        if string.find(t, 'RequestRoster', 1, true) then -- QH roster request
+
+            for index, data in next, TWA.data do -- build roster string
+                for i, name in data do
+                    if i == 2 or i == 3 or i == 4 then
+                        if name ~= '-' then
+                            if string.len(tanks) == 6 then -- skip ',' delimiter if this is the first tank entry
+                                tanks = tanks .. name
+                            else
+                                tanks = tanks .. "," .. name
+                            end
+                        end
+                    end
+                    if i == 5 or i == 6 or i == 7 then
+                        if name ~= '-' then
+                            if string.len(healers) == 8 then -- skip ',' delimiter if this is the first healer entry
+                                healers = healers .. name
+                            else
+                                healers = healers .. "," .. name
+                            end
+                        end
+                    end
+                end
+            end
+            roster = tanks .. ";" .. healers;
+            ChatThrottleLib:SendAddonMessage("ALERT", "TWA", roster, "RAID") -- transmit roster
+        end
     end
 end
 
