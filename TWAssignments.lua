@@ -415,6 +415,7 @@ TWA:SetScript("OnEvent", function()
             TWA.data = TWA_DATA
             TWA.fillRaidData()
             TWA.PopulateTWA()
+            tinsert(UISpecialFrames, "TWA_Main") --makes window close with Esc key
         end
         if event == "RAID_ROSTER_UPDATE" then
             TWA.fillRaidData()
@@ -506,6 +507,7 @@ function TWA.fillRaidData()
             local _, unitClass = UnitClass('raid' .. i)
             unitClass = string.lower(unitClass)
             table.insert(TWA.raid[unitClass], name)
+            table.sort(TWA.raid[unitClass])
         end
     end
 end
@@ -660,38 +662,20 @@ function TWA.changeCell(xy, to, dontOpenDropdown)
 
     local x = math.floor(xy / 100)
     local y = xy - x * 100
-    TWA.closeDropdown(y)
+    CloseDropDownMenus()
 end
 
 function TWA.change(xy, to, sender, dontOpenDropdown)
     local x = math.floor(xy / 100)
     local y = xy - x * 100
 
-    if to ~= 'clear' then
+    if to ~= 'Clear' then
         TWA.data[x][y] = to
     else
         TWA.data[x][y] = '-'
     end
 
     TWA.PopulateTWA()
-end
-
-function TWA.closeDropdown(y)
-    if y == 1 then
-        if getglobal('TWATargetsDropDown'):IsVisible() then
-            ToggleDropDownMenu(1, nil, getglobal('TWATargetsDropDown'), "cursor", 2, 3)
-        end
-    end
-    if y == 2 or y == 3 or y == 4 then
-        if getglobal('TWATanksDropDown'):IsVisible() then
-            ToggleDropDownMenu(1, nil, getglobal('TWATanksDropDown'), "cursor", 2, 3)
-        end
-    end
-    if y == 5 or y == 6 or 6 == 7 then
-        if getglobal('TWAHealersDropDown'):IsVisible() then
-            ToggleDropDownMenu(1, nil, getglobal('TWAHealersDropDown'), "cursor", 2, 3)
-        end
-    end
 end
 
 function TWA.PopulateTWA()
@@ -846,18 +830,18 @@ function buildTargetsDropdown()
 
     if UIDROPDOWNMENU_MENU_LEVEL == 1 then
 
-        local Trash = {}
-        Trash.text = "Trash"
-        Trash.isTitle = true
-        UIDropDownMenu_AddButton(Trash, UIDROPDOWNMENU_MENU_LEVEL);
-
         local Title = {}
-        Title.text = "Targets"
+        Title.text = "Target"
         Title.isTitle = true
         UIDropDownMenu_AddButton(Title, UIDROPDOWNMENU_MENU_LEVEL);
 
+        local separator = {};
+        separator.text = ""
+        separator.disabled = true
+        UIDropDownMenu_AddButton(separator, UIDROPDOWNMENU_MENU_LEVEL);
+
         local Marks = {}
-        Marks.text = TWA.classColors['mage'].c .. "Marks"
+        Marks.text = "Marks"
         Marks.notCheckable = true
         Marks.hasArrow = true
         Marks.value = {
@@ -907,23 +891,14 @@ function buildTargetsDropdown()
         UIDropDownMenu_AddButton(separator);
 
         local clear = {};
-        clear.text = "clear"
+        clear.text = "Clear"
         clear.disabled = false
         clear.isTitle = false
         clear.notCheckable = true
         clear.func = TWA.changeCell
         clear.arg1 = TWA.currentRow * 100 + TWA.currentCell
-        clear.arg2 = 'clear'
+        clear.arg2 = 'Clear'
         UIDropDownMenu_AddButton(clear, UIDROPDOWNMENU_MENU_LEVEL);
-
-        local close = {};
-        close.text = "Close"
-        close.disabled = false
-        close.notCheckable = true
-        close.isTitle = false
-        close.arg1 = TWA.currentCell
-        close.func = TWA.closeDropdown
-        UIDropDownMenu_AddButton(close, UIDROPDOWNMENU_MENU_LEVEL);
     end
 
     if UIDROPDOWNMENU_MENU_LEVEL == 2 then
@@ -1133,6 +1108,11 @@ function buildTanksDropdown()
         Title.isTitle = true
         UIDropDownMenu_AddButton(Title, UIDROPDOWNMENU_MENU_LEVEL);
 
+        local separator = {};
+        separator.text = ""
+        separator.disabled = true
+        UIDropDownMenu_AddButton(separator, UIDROPDOWNMENU_MENU_LEVEL);
+
         local Warriors = {}
         Warriors.text = TWA.classColors['warrior'].c .. 'Warriors'
         Warriors.notCheckable = true
@@ -1225,23 +1205,14 @@ function buildTanksDropdown()
         UIDropDownMenu_AddButton(separator);
 
         local clear = {};
-        clear.text = "clear"
+        clear.text = "Clear"
         clear.disabled = false
         clear.isTitle = false
         clear.notCheckable = true
         clear.func = TWA.changeCell
         clear.arg1 = TWA.currentRow * 100 + TWA.currentCell
-        clear.arg2 = 'clear'
+        clear.arg2 = 'Clear'
         UIDropDownMenu_AddButton(clear, UIDROPDOWNMENU_MENU_LEVEL);
-
-        local close = {};
-        close.text = "Close"
-        close.disabled = false
-        close.notCheckable = true
-        close.isTitle = false
-        close.arg1 = TWA.currentCell
-        close.func = TWA.closeDropdown
-        UIDropDownMenu_AddButton(close, UIDROPDOWNMENU_MENU_LEVEL);
     end
     if UIDROPDOWNMENU_MENU_LEVEL == 2 then
 
@@ -1273,6 +1244,11 @@ function buildHealersDropdown()
         Healers.isTitle = true
         UIDropDownMenu_AddButton(Healers, UIDROPDOWNMENU_MENU_LEVEL);
 
+        local separator = {};
+        separator.text = ""
+        separator.disabled = true
+        UIDropDownMenu_AddButton(separator, UIDROPDOWNMENU_MENU_LEVEL);
+        
         local Priests = {}
         Priests.text = TWA.classColors['priest'].c .. 'Priests'
         Priests.notCheckable = true
@@ -1315,23 +1291,14 @@ function buildHealersDropdown()
         UIDropDownMenu_AddButton(separator);
 
         local clear = {};
-        clear.text = "clear"
+        clear.text = "Clear"
         clear.disabled = false
         clear.isTitle = false
         clear.notCheckable = true
         clear.func = TWA.changeCell
         clear.arg1 = TWA.currentRow * 100 + TWA.currentCell
-        clear.arg2 = 'clear'
+        clear.arg2 = 'Clear'
         UIDropDownMenu_AddButton(clear, UIDROPDOWNMENU_MENU_LEVEL);
-
-        local close = {};
-        close.text = "Close"
-        close.disabled = false
-        close.notCheckable = true
-        close.isTitle = false
-        close.arg1 = TWA.currentCell
-        close.func = TWA.closeDropdown
-        UIDropDownMenu_AddButton(close, UIDROPDOWNMENU_MENU_LEVEL);
     end
     if UIDROPDOWNMENU_MENU_LEVEL == 2 then
 
@@ -1358,7 +1325,10 @@ TWA.currentRow = 0
 TWA.currentCell = 0
 
 function TWCell_OnClick(id)
-
+    if not ((IsRaidLeader()) or (IsRaidOfficer())) then 
+        twaprint("You need to be a raid leader or assistant to do that")
+        return
+    end
     TWA.currentRow = math.floor(id / 100)
     TWA.currentCell = id - TWA.currentRow * 100
 
@@ -1379,9 +1349,18 @@ function TWCell_OnClick(id)
         UIDropDownMenu_Initialize(TWAHealersDropDown, buildHealersDropdown, "MENU");
         ToggleDropDownMenu(1, nil, TWAHealersDropDown, "cursor", 2, 3);
     end
+
+    if IsControlKeyDown() then
+        CloseDropDownMenus()
+        TWA.changeCell(TWA.currentRow * 100 + TWA.currentCell, "Clear")
+    end
 end
 
 function AddLine_OnClick()
+    if not ((IsRaidLeader()) or (IsRaidOfficer())) then 
+        twaprint("You need to be a raid leader or assistant to do that")
+        return
+    end
     ChatThrottleLib:SendAddonMessage("ALERT", "TWA", "AddLine", "RAID")
 end
 
@@ -1393,8 +1372,11 @@ function TWA.AddLine()
 end
 
 function SpamRaid_OnClick()
-
-    ChatThrottleLib:SendChatMessage("BULK", "TWA", "======= RAID ASSIGNMENTS =======", "RAID")
+    if not ((IsRaidLeader()) or (IsRaidOfficer())) then 
+        twaprint("You need to be a raid leader or assistant to do that")
+        return
+    end
+    ChatThrottleLib:SendChatMessage("BULK", "TWA", "======= RAID ASSIGNMENTS =======", "RAID_WARNING")
 
     for _, data in next, TWA.data do
 
@@ -1434,6 +1416,10 @@ function SpamRaid_OnClick()
 end
 
 function RemRow_OnClick(id)
+    if not ((IsRaidLeader()) or (IsRaidOfficer())) then 
+        twaprint("You need to be a raid leader or assistant to do that")
+        return
+    end
     ChatThrottleLib:SendAddonMessage("ALERT", "TWA", "RemRow=" .. id, "RAID")
 end
 
@@ -1460,6 +1446,10 @@ function TWA.RemRow(id, sender)
 end
 
 function Reset_OnClick()
+    if not ((IsRaidLeader()) or (IsRaidOfficer())) then 
+        twaprint("You need to be a raid leader or assistant to do that")
+        return
+    end
     ChatThrottleLib:SendAddonMessage("ALERT", "TWA", "Reset", "RAID")
 end
 
@@ -1830,12 +1820,19 @@ function buildTemplatesDropdown()
 end
 
 function Templates_OnClick()
+    if not ((IsRaidLeader()) or (IsRaidOfficer())) then 
+        twaprint("You need to be a raid leader or assistant to do that")
+        return
+    end
     UIDropDownMenu_Initialize(TWATemplates, buildTemplatesDropdown, "MENU");
     ToggleDropDownMenu(1, nil, TWATemplates, "cursor", 2, 3);
 end
 
 function LoadPreset_OnClick()
-
+    if not ((IsRaidLeader()) or (IsRaidOfficer())) then 
+        twaprint("You need to be a raid leader or assistant to do that")
+        return
+    end
     if TWA.loadedTemplate == '' then
         twaprint('Please load a template first.')
     else
@@ -1861,7 +1858,10 @@ function LoadPreset_OnClick()
 end
 
 function SavePreset_OnClick()
-
+    if not ((IsRaidLeader()) or (IsRaidOfficer())) then 
+        twaprint("You need to be a raid leader or assistant to do that")
+        return
+    end
     if TWA.loadedTemplate == '' then
         twaprint('Please load a template first.')
     else
@@ -1879,6 +1879,10 @@ function SavePreset_OnClick()
 end
 
 function SyncBW_OnClick()
+    if not ((IsRaidLeader()) or (IsRaidOfficer())) then 
+        twaprint("You need to be a raid leader or assistant to do that")
+        return
+    end
     ChatThrottleLib:SendAddonMessage("ALERT", "TWABW", "BWSynch=start", "RAID")
 
     for _, data in next, TWA.data do
