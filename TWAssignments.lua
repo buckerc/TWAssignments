@@ -1,4 +1,4 @@
-local addonVer = "1.0.0.0" --don't use letters or numbers > 10
+local addonVer = "1.0.0.1" --don't use letters or numbers > 10
 local me = UnitName('player')
 
 local TWA = CreateFrame("Frame")
@@ -234,10 +234,10 @@ local twa_templates = {
         [4] = { "Dead", "-", "-", "-", "-", "-", "-" },
     },
     ['4h'] = {
-        [1] = { "Skull", "-", "-", "-", "-", "-", "-" },
-        [2] = { "Cross", "-", "-", "-", "-", "-", "-" },
-        [3] = { "Moon", "-", "-", "-", "-", "-", "-" },
-        [4] = { "Square", "-", "-", "-", "-", "-", "-" },
+        [1] = { "Thane Korth'azz", "-", "-", "-", "-", "-", "-" },
+        [2] = { "Lady Blaumeux", "-", "-", "-", "-", "-", "-" },
+        [3] = { "Sir Zeliek", "-", "-", "-", "-", "-", "-" },
+        [4] = { "Highlord Mograine", "-", "-", "-", "-", "-", "-" },
     },
     ['patchwerk'] = {
         [1] = { "BOSS", "-", "-", "-", "-", "-", "-" },
@@ -277,7 +277,46 @@ local twa_templates = {
         [1] = { "BOSS", "-", "-", "-", "-", "-", "-" },
         [2] = { "Raid", "-", "-", "-", "-", "-", "-" },
     },
-
+    ['spiderTrash'] = {
+        [1] = { "Skull", "-", "-", "-", "-", "-", "-" },
+        [2] = { "Cross", "-", "-", "-", "-", "-", "-" },
+        [3] = { "Triangle", "-", "-", "-", "-", "-", "-" },
+        [4] = { "Square", "-", "-", "-", "-", "-", "-" },
+        [5] = { "Diamond", "-", "-", "-", "-", "-", "-" },
+        [6] = { "Circle", "-", "-", "-", "-", "-", "-" },
+        [7] = { "Star", "-", "-", "-", "-", "-", "-" },
+        [8] = { "Moon", "-", "-", "-", "-", "-", "-" },
+    },
+    ['milTrash'] = {
+        [1] = { "Skull", "-", "-", "-", "-", "-", "-" },
+        [2] = { "Cross", "-", "-", "-", "-", "-", "-" },
+        [3] = { "Triangle", "-", "-", "-", "-", "-", "-" },
+        [4] = { "Square", "-", "-", "-", "-", "-", "-" },
+        [5] = { "Diamond", "-", "-", "-", "-", "-", "-" },
+        [6] = { "Circle", "-", "-", "-", "-", "-", "-" },
+        [7] = { "Star", "-", "-", "-", "-", "-", "-" },
+        [8] = { "Moon", "-", "-", "-", "-", "-", "-" },
+    },
+    ['plagueTrash'] = {
+        [1] = { "Skull", "-", "-", "-", "-", "-", "-" },
+        [2] = { "Cross", "-", "-", "-", "-", "-", "-" },
+        [3] = { "Triangle", "-", "-", "-", "-", "-", "-" },
+        [4] = { "Square", "-", "-", "-", "-", "-", "-" },
+        [5] = { "Diamond", "-", "-", "-", "-", "-", "-" },
+        [6] = { "Circle", "-", "-", "-", "-", "-", "-" },
+        [7] = { "Star", "-", "-", "-", "-", "-", "-" },
+        [8] = { "Moon", "-", "-", "-", "-", "-", "-" },
+    },
+    ['constructTrash'] = {
+        [1] = { "Skull", "-", "-", "-", "-", "-", "-" },
+        [2] = { "Cross", "-", "-", "-", "-", "-", "-" },
+        [3] = { "Triangle", "-", "-", "-", "-", "-", "-" },
+        [4] = { "Square", "-", "-", "-", "-", "-", "-" },
+        [5] = { "Diamond", "-", "-", "-", "-", "-", "-" },
+        [6] = { "Circle", "-", "-", "-", "-", "-", "-" },
+        [7] = { "Star", "-", "-", "-", "-", "-", "-" },
+        [8] = { "Moon", "-", "-", "-", "-", "-", "-" },
+    },
 }
 
 TWA.loadedTemplate = ''
@@ -386,6 +425,10 @@ TWA.misc = {
     ['Dead'] = TWA.classColors['druid'].c,
     ['Dispels'] = TWA.classColors['mage'].c,
     ['Soaker'] = TWA.classColors['druid'].c,
+    ["Thane Korth'azz"] = TWA.classColors['warrior'].c,
+    ['Lady Blaumeux'] = TWA.classColors['mage'].c,
+    ['Sir Zeliek'] = TWA.classColors['druid'].c,
+    ['Highlord Mograine'] = TWA.classColors['hunter'].c,
 }
 
 TWA.groups = {
@@ -1815,6 +1858,42 @@ function buildTemplatesDropdown()
             UIDropDownMenu_AddButton(dropdownItem, UIDROPDOWNMENU_MENU_LEVEL);
             dropdownItem = nil
 
+            separator = {};
+            separator.text = ""
+            separator.disabled = true
+            UIDropDownMenu_AddButton(separator, UIDROPDOWNMENU_MENU_LEVEL);
+
+            dropdownItem = {}
+            dropdownItem.text = "Spider Trash"
+            dropdownItem.func = TWA.loadTemplate
+            dropdownItem.arg1 = 'spiderTrash'
+            dropdownItem.arg2 = false
+            UIDropDownMenu_AddButton(dropdownItem, UIDROPDOWNMENU_MENU_LEVEL);
+            dropdownItem = nil
+
+            dropdownItem = {}
+            dropdownItem.text = "Military Trash"
+            dropdownItem.func = TWA.loadTemplate
+            dropdownItem.arg1 = 'milTrash'
+            dropdownItem.arg2 = false
+            UIDropDownMenu_AddButton(dropdownItem, UIDROPDOWNMENU_MENU_LEVEL);
+            dropdownItem = nil
+
+            dropdownItem = {}
+            dropdownItem.text = "Plague Trash"
+            dropdownItem.func = TWA.loadTemplate
+            dropdownItem.arg1 = 'plagueTrash'
+            dropdownItem.arg2 = false
+            UIDropDownMenu_AddButton(dropdownItem, UIDROPDOWNMENU_MENU_LEVEL);
+            dropdownItem = nil
+
+            dropdownItem = {}
+            dropdownItem.text = "Construct Trash"
+            dropdownItem.func = TWA.loadTemplate
+            dropdownItem.arg1 = 'constructTrash'
+            dropdownItem.arg2 = false
+            UIDropDownMenu_AddButton(dropdownItem, UIDROPDOWNMENU_MENU_LEVEL);
+            dropdownItem = nil
         end
     end
 end
