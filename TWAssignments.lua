@@ -1851,7 +1851,7 @@ function buildTemplatesDropdown()
             dropdownItem = nil
 
             dropdownItem = {}
-            dropdownItem.text = "Kel'Thusad"
+            dropdownItem.text = "Kel'Thuzad"
             dropdownItem.func = TWA.loadTemplate
             dropdownItem.arg1 = 'kt'
             dropdownItem.arg2 = false
